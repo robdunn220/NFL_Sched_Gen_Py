@@ -1,4 +1,3 @@
-import json
 # This block is for the creation of the team class, and the initialization of each Team
 # in the League.
 class IterRegistry(type):
