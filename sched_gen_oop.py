@@ -3,23 +3,37 @@ import random
 
 NFL = league_gen.Team._registry
 
-schedule = {}
+# def byeWeeks():
 
-for team in NFL:
-    schedule[team.name] = {'Sched': {}, 'Weeks': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]}
 
-def divSched(NFL):
+def divSched():
     for team in NFL:
         for opponent in NFL:
-            if opponent.name not in schedule[team.name]['Sched'] and team.name != opponent.name and team.div == opponent.div and team.conf == opponent.conf:
-                x = random.choice(schedule[team.name]['Weeks'])
-                while x not in schedule[opponent.name]['Weeks']:
-                    x = random.choice(schedule[team.name]['Weeks'])
-                schedule[team.name]['Weeks'].remove(x)
-                schedule[team.name]['Sched'][x] = opponent.name
-                schedule[opponent.name]['Weeks'].remove(x)
-                schedule[opponent.name]['Sched'][x] = team.name
+            if opponent.name not in team.schedule['Sched'] and team.name != opponent.name and team.div == opponent.div and team.conf == opponent.conf:
+                x = random.choice(team.schedule['Weeks'])
+                while x not in opponent.schedule['Weeks']:
+                    x = random.choice(team.schedule['Weeks'])
+                team.schedule['Weeks'].remove(x)
+                team.schedule['Sched'][x] = opponent.name
+                opponent.schedule['Weeks'].remove(x)
+                opponent.schedule['Sched'][x] = team.name
 
-divSched(NFL)
-confSched(NFL)
-print(schedule)
+def inConfSched():
+    for team in NFL:
+        for opponent in NFL:
+            if team.conf == 'NFC' and team.div == 'South':
+                if opponent.name not in team.schedule['Sched'] and opponent.div == 'North' and opponent.conf == 'NFC':
+                    x = random.choice(team.schedule['Weeks'])
+                    while x not in opponent.schedule['Weeks']:
+                        x = random.choice(team.schedule['Weeks'])
+                    team.schedule['Weeks'].remove(x)
+                    team.schedule['Sched'][x] = opponent.name
+                    opponent.schedule['Weeks'].remove(x)
+                    opponent.schedule['Sched'][x] = team.name
+
+divSched()
+inConfSched()
+for team in NFL:
+    print('Team:', team.name)
+    for key in sorted(team.schedule['Sched']):
+        print('%s: %s' % (key, team.schedule['Sched'][key]))

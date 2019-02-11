@@ -16,6 +16,7 @@ class Team(metaclass=IterRegistry):
         self.win = win
         self.loss = loss
         self.gp = gp
+        self.schedule = {'Sched': {}, 'Weeks': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]}
 
 GB = Team("Packers", "Green Bay", "North", "NFC", 0, 0, 0)
 DET = Team("Lions", "Detroit", "North", "NFC", 0, 0, 0)
