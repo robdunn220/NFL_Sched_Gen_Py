@@ -1,11 +1,10 @@
 import league_gen
 import random
 
+# Assign imported list of Team objects
 NFL = league_gen.Team._registry
 
-# def byeWeeks():
-
-
+# Function for randomly assigning division opponents for each team
 def divSched():
     for team in NFL:
         for opponent in NFL:
@@ -18,6 +17,7 @@ def divSched():
                 opponent.schedule['Weeks'].remove(x)
                 opponent.schedule['Sched'][x] = team.name
 
+# Function for randomly assigning inter-divisional opponents for each team. Don't have random assignment yet.
 def inConfSched():
     for team in NFL:
         for opponent in NFL:
