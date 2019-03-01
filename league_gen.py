@@ -7,7 +7,7 @@ class IterRegistry(type):
 class Team(metaclass=IterRegistry):
     _registry = []
 
-    def __init__(self, name, city, div, conf, win, loss, gp):
+    def __init__(self, name, city, div, conf, win, loss, gp, previous_div_rank):
         self._registry.append(self)
         self.name = name
         self.city = city
