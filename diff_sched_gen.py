@@ -1,56 +1,56 @@
 import league_gen
 import random
 
+weeks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+
 # Assign imported list of Team objects
 NFL = league_gen.Team._registry
-random.shuffle(NFL)
+# NFL = random.sample(NFL, len(NFL))
 
-def scheduler(team, opponent):
-    x = random.choice(team.schedule['Weeks'])
-    while x not in opponent.schedule['Weeks']:
-        x = random.choice(team.schedule['Weeks'])
-    team.schedule['Weeks'].remove(x)
-    team.schedule['Sched'][x] = opponent
-    opponent.schedule['Weeks'].remove(x)
-    opponent.schedule['Sched'][x] = team
+teams = list(NFL)
 
-def repeatSchedDebug(team, opponent, prev=False):
+def scheduler(team, opponent, week):
+    team.schedule.append({opponent.name: opponent})
+    opponent.schedule.append({team.name: team})
+
+def repeatSchedDebug(team, opponent, week):
     listOfOpp = []
-    if prev == True:
-        print('Team:', team.name)
-        print('Opp:', opponent.name)
     # Creates a list of opponent names in team schedule
-    for opp in list(team.schedule['Sched'].items()):
-        listOfOpp.append(opp[1].name)
+    for x in team.schedule:
+        for week, matchup in x.items():
+            for oppname, opp in matchup.items():
+                listOfOpp.append(oppname)
     # Uses created list to check if opponent is already on schedule to stop double-scheduling issue
     if opponent.name not in listOfOpp:
-        scheduler(team, opponent)
+        scheduler(team, opponent, week)
 
-def divSchedGen():
-    for team in NFL:
-        for opponent in NFL:
-        # Checks if opponent is in-conference
-            if team.conf == opponent.conf and team.name != opponent.name:
-                # Checks if opponent is in-division
-                if team.div == opponent.div:
-                    scheduler(team, opponent)
-                # Checks if opponent is out-of-division, in-conference
-                elif team.div == opponent.div_match:
-                    repeatSchedDebug(team, opponent)
-                elif team.div != opponent.div_match and team.previous_div_rank == opponent.previous_div_rank:
-                    repeatSchedDebug(team, opponent, True)
+for x in range(1,17):
+    while len(teams) > 0:
+        team_one = random.choice(teams)
+        teams.remove(team_one)
+        team_two = random.choice(teams)
+        teams.remove(team_two)
 
-
-# def test():
-#     for team in NFL:
-#         listOfOpp = []
-#         for opponent in NFL:
-
-divSchedGen()
-# test()
+        if team_one.name != team_two.name:
+            if team_one.conf == team_two.conf:
+                # Checks if team_two is in-division
+                if team_one.div == team_two.div:
+                    team_one.schedule.append({x: {team_two.name: team_two}})
+                    team_two.schedule.append({x: {team_one.name: team_one}})
+                # Checks if team_two is out-of-division, in-conference, and has been assigned as divisional team_two
+                elif team_one.div == team_two.div_match:
+                    team_one.schedule.append({x: {team_two.name: team_two}})
+                    team_two.schedule.append({x: {team_one.name: team_one}})
+                # Checks if team_two is out-of-division, in-conference, and has the same previous years division ranking
+                elif team_one.div != team_two.div_match and team_one.previous_div_rank == team_two.previous_div_rank:
+                    team_one.schedule.append({x: {team_two.name: team_two}})
+                    team_two.schedule.append({x: {team_one.name: team_one}})
+            elif team_one.conf != team_two.conf:
+                if team_one.div == team_two.div:
+                    team_one.schedule.append({x: {team_two.name: team_two}})
+                    team_two.schedule.append({x: {team_one.name: team_one}})
+    teams = list(NFL)
 
 for team in NFL:
-    if team.name == 'Cowboys':
-        print(len(team.schedule['Sched'].items()))
-        for opp in list(team.schedule['Sched'].items()):
-            print(opp[1].name)
+    if team.name == 'Falcons':
+        print(team.schedule)

@@ -18,7 +18,8 @@ class Team(metaclass=IterRegistry):
         self.gp = gp
         self.previous_div_rank = previous_div_rank
         self.div_match = div_match
-        self.schedule = {'Sched': {}, 'Weeks': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]}
+        self.schedule = []
+        self.weeks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 
 GB = Team("Packers", "Green Bay", "North", "NFC", 0, 0, 0, 1, 'South')
 DET = Team("Lions", "Detroit", "North", "NFC", 0, 0, 0, 2, 'South')
