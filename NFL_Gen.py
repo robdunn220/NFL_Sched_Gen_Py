@@ -6,22 +6,15 @@ NFL = league_gen.Team._registry
 NFL = random.sample(NFL, len(NFL))
 
 def scheduler(team, opponent, week):
-    weekMatch = sorted(set(team.weeks) & set(opponent.weeks))
-    if len(weekMatch) > 0:
-        x = random.choice(weekMatch)
-        if x:
-            team.weeks.remove(x)
-            opponent.weeks.remove(x)
-            team.schedule.append({x: {opponent.name: opponent}})
-            opponent.schedule.append({x: {team.name: team}})
+    team.schedule.append({opponent.name: opponent})
+    opponent.schedule.append({team.name: team})
 
 def repeatSchedDebug(team, opponent, week):
     listOfOpp = []
     # Creates a list of opponent names in team schedule
-    for x in team.schedule:
-        for week, matchup in x.items():
-            for oppname, opp in matchup.items():
-                listOfOpp.append(oppname)
+    for match in team.schedule:
+        for name, obj in match.items():
+            listOfOpp.append(name)
     # Uses created list to check if opponent is already on schedule to stop double-scheduling issue
     if opponent.name not in listOfOpp:
         scheduler(team, opponent, week)
@@ -60,7 +53,6 @@ divSchedGen()
 for team in NFL:
     if team.name == 'Packers':
         print(len(team.schedule))
-        for x in team.schedule:
-            for week, matchup in x.items():
-                for oppname, opp in matchup.items():
-                    y = 1
+        for match in team.schedule:
+            for name, obj in match.items():
+                print(name)
