@@ -1,10 +1,10 @@
 # This block is for the creation of the team class, and the initialization of each Team
 # in the League.
-class IterRegistry(type):
-    def __iter__(cls):
-        return iter(cls._registry)
+# class IterRegistry(type):
+#     def __iter__(cls):
+#         return iter(cls._registry)
 
-class Team(metaclass=IterRegistry):
+class Team():
     _registry = []
 
     def __init__(self, name, city, div, conf, win, loss, gp, previous_div_rank, div_match):
