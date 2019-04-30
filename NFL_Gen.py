@@ -5,6 +5,7 @@ import random
 NFL = league_gen.Team._registry
 NFL = random.sample(NFL, len(NFL))
 
+# Method for scheduling teams. Redundant/ unnecessary?
 def scheduler(team, opponent, week):
     team.schedule.append({opponent.name: opponent})
     opponent.schedule.append({team.name: team})
